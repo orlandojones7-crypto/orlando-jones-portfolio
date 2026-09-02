@@ -1,7 +1,7 @@
 /* Ground truth: Swiss editorial grid from Home_desktop.png. Preserve asymmetry, exact Portuguese labels, quiet motion, and asset slots. */
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { ArrowUpRight, ChevronDown, Mouse, Plus } from "lucide-react";
+import { ArrowUpRight, Plus } from "lucide-react";
 
 const projects = [
   { name: "Mirantes", description: "Produto digital B2B e B2C", type: "Product Design", slug: "mirantes" },
@@ -64,20 +64,37 @@ function Header() {
   </header>;
 }
 
+function FigmaButton({ children, href }: { children: React.ReactNode; href: string }) {
+  return <a href={href} className="figma-button">
+    <span className="figma-button__label">{children}</span>
+    <i className="figma-button__marker figma-button__marker--tl" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--tr" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--bl" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--br" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--tm" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--bm" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--ml" aria-hidden="true" />
+    <i className="figma-button__marker figma-button__marker--mr" aria-hidden="true" />
+  </a>;
+}
+
 function Hero() {
   return <>
     <section id="top" className="hero-layer" aria-label="Introdução">
-      <img className="hero-grid-shapes hero-geometry" src="/1-649.svg" alt="" aria-hidden="true" />
       <div className="hero-inner page-width">
+        <img className="hero-geometry" src="/1-649.svg" alt="" aria-hidden="true" />
         <div className="hero-title"><span>PRODUCT</span><strong>DESIGN</strong></div>
         <AssetSlot className="hero-portrait" label="Portrait principal" src="/1-643.webp" />
         <div className="hero-copy">
-          <p>Transformo problemas de negócio em produtos digitais funcionais e fáceis de usar, da pesquisa à prototipagem e entrega para desenvolvimento.</p>
-          <a href="#projects" className="text-link">Conheça o meu trabalho</a>
-          <a href="#contact" className="button button--dark">Vamos trabalhar juntos?</a>
+          <div className="hero-info">
+            <p>Transformo problemas de negócio em produtos digitais funcionais e fáceis de usar, da pesquisa à prototipagem e entrega para desenvolvimento.</p>
+            <a href="#projects" className="text-link">Conheça o meu trabalho</a>
+          </div>
+          <FigmaButton href="#contact">Vamos trabalhar juntos?</FigmaButton>
+          <img className="hero-curve" src="/1-690.svg" alt="" aria-hidden="true" />
         </div>
       </div>
-      <div className="scroll-cue"><Mouse size={17} strokeWidth={1.3} /><ChevronDown size={12} /></div>
+      <a href="#projects" className="scroll-cue" aria-label="Descer para projetos"><span className="scroll-cue__thumb" /></a>
     </section>
     <div className="hero-spacer" aria-hidden="true" />
   </>;
