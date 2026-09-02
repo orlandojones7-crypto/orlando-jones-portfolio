@@ -10,3 +10,13 @@
 - [x] Implementar Footer preto com monograma, wordmark, navegação e social placeholders.
 - [x] Adicionar responsividade, acessibilidade, focus states e reduced motion.
 - [x] Validar build, navegação e screenshot desktop/mobile antes da entrega.
+
+## Revisão Figma — Home_desktop.zip
+
+- [x] Listar e extrair o pacote Figma recebido.
+- [x] Examinar `frame.webp` antes de editar o código.
+- [x] Executar `setup-figma.py` com os caminhos corretos.
+- [x] Integrar os 29 assets exportados em referências locais.
+- [x] Validar a homepage no navegador em desktop e mobile.
+- [x] Validar abertura e retorno da rota `/projects/mirantes`.
+- [x] Ajustar Hero, marca oficial, Footer e copy para maior fidelidade ao frame.

@@ -1,5 +1,5 @@
 /* Ground truth: Swiss editorial grid from Home_desktop.png. Preserve asymmetry, exact Portuguese labels, quiet motion, and asset slots. */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { ArrowUpRight, ChevronDown, Mouse, Plus } from "lucide-react";
 
@@ -41,15 +41,15 @@ const skills = [
 ];
 
 function Mark({ inverted = false }: { inverted?: boolean }) {
-  return <span className={`brand-mark ${inverted ? "brand-mark--inverted" : ""}`} aria-hidden="true">OJ</span>;
+  return <span className={`brand-mark ${inverted ? "brand-mark--inverted" : ""}`} aria-hidden="true"><img src="/I1-642;1604-8277.svg" alt="" /><img src="/I1-642;1604-8278.svg" alt="" /><img src="/I1-642;1604-8279.svg" alt="" /></span>;
 }
 
 function Wordmark({ large = false, inverted = false }: { large?: boolean; inverted?: boolean }) {
   return <span className={`wordmark ${large ? "wordmark--large" : ""} ${inverted ? "wordmark--inverted" : ""}`}><strong>ORLANDO</strong><em>JONES</em></span>;
 }
 
-function AssetSlot({ className = "", label = "Asset slot" }: { className?: string; label?: string }) {
-  return <div className={`asset-slot ${className}`} role="img" aria-label={`${label}. A aguardar o asset fornecido pelo utilizador.`}><span>{label}</span></div>;
+function AssetSlot({ className = "", label = "Asset slot", src }: { className?: string; label?: string; src?: string }) {
+  return <div className={`asset-slot ${className} ${src ? "asset-slot--image" : ""}`} role="img" aria-label={`${label}${src ? "" : ". A aguardar o asset fornecido pelo utilizador."}`}>{src ? <img src={src} alt={label} loading="eager" /> : <span>{label}</span>}</div>;
 }
 
 function Header() {
@@ -67,10 +67,10 @@ function Header() {
 function Hero() {
   return <>
     <section id="top" className="hero-layer" aria-label="Introdução">
-      <div className="hero-grid-shapes" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
+      <img className="hero-grid-shapes hero-geometry" src="/1-649.svg" alt="" aria-hidden="true" />
       <div className="hero-inner page-width">
         <div className="hero-title"><span>PRODUCT</span><strong>DESIGN</strong></div>
-        <AssetSlot className="hero-portrait" label="Portrait principal" />
+        <AssetSlot className="hero-portrait" label="Portrait principal" src="/1-643.webp" />
         <div className="hero-copy">
           <p>Transformo problemas de negócio em produtos digitais funcionais e fáceis de usar, da pesquisa à prototipagem e entrega para desenvolvimento.</p>
           <a href="#projects" className="text-link">Conheça o meu trabalho</a>
@@ -86,6 +86,20 @@ function Hero() {
 function Projects() {
   const [active, setActive] = useState(5);
   const selected = projects[active];
+  useEffect(() => {
+    const onScroll = () => {
+      const items = Array.from(document.querySelectorAll<HTMLElement>(".project-item"));
+      if (!items.length) return;
+      const center = window.innerHeight * 0.52;
+      let closest = 0;
+      let distance = Number.POSITIVE_INFINITY;
+      items.forEach((item, index) => { const rect = item.getBoundingClientRect(); const next = Math.abs(rect.top + rect.height / 2 - center); if (next < distance) { distance = next; closest = index; } });
+      if (distance < window.innerHeight * 0.62) setActive(closest);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return <section id="projects" className="section projects-section page-width">
     <div className="section-rule section-rule--heading"><span>PROJETOS</span><span>OBRA SELECCIONADA</span></div>
     <div className="projects-intro"><p>Uma seleção de produtos e experiências digitais que representam a minha forma de pensar, explorar e resolver problemas.</p></div>
@@ -96,7 +110,7 @@ function Projects() {
         </Link>)}
       </div>
       <Link href={`/projects/${selected.slug}`} className="project-preview" aria-label={`Abrir projeto ${selected.name}`}>
-        <AssetSlot label={`${selected.name} preview`} />
+        <AssetSlot label={`${selected.name} preview`} src="/I1-671;1653-3804.webp" />
         <span className="preview-tag"><Plus size={13} /> {selected.name === "Nazih_Website" ? "Nazih Caetano" : selected.name}</span>
       </Link>
     </div>
@@ -120,18 +134,19 @@ function Qualifications() {
 function Skills() {
   return <section id="skills" className="section page-width">
     <div className="section-rule"><span>PERÍCIAS</span></div>
-    <div className="skills-layout"><AssetSlot className="skill-portrait" label="Fotografia de Orlando" /><div className="skills-grid">{skills.map(([name, values]) => <div className="skill-group" key={name as string}><h3>{name as string}</h3>{(values as string[]).map(value => <span key={value}>•&nbsp; {value}</span>)}</div>)}</div></div>
+    <div className="skills-layout"><AssetSlot className="skill-portrait" label="Fotografia de Orlando" src="/I1-646;1623-1789.webp" /><div className="skills-grid">{skills.map(([name, values]) => <div className="skill-group" key={name as string}><h3>{name as string}</h3>{(values as string[]).map(value => <span key={value}>•&nbsp; {value}</span>)}</div>)}</div></div>
   </section>;
 }
 
+const momentAssets = ["/I1-647;1623-2134.webp", "/I1-647;1623-2121.webp", "/I1-647;1623-2123.webp", "/I1-647;1623-2124.webp", "/I1-647;1623-2133.webp", "/I1-647;1623-2135.webp", "/I1-647;1623-2136.webp", "/I1-670;1623-2927.webp", "/I1-670;1623-2928.webp", "/I1-670;1623-2929.webp"];
 const moments = Array.from({ length: 20 }, (_, index) => index + 1);
 function Moments() {
   const [colorMoment, setColorMoment] = useState<number | null>(null);
-  return <section className="section moments-section page-width"><div className="section-rule"><span>COLETÂNIA DE MOMENTOS COMO</span></div><div className="moments-layout"><div className="moment-cluster moment-cluster--left">{moments.slice(0, 10).map((moment, index) => <AssetSlot key={moment} className={`moment moment-${index + 1} ${colorMoment === moment ? "is-color" : ""}`} label={`Momento ${moment}`} />)}</div><div className="moments-wordmark"><strong>ORLANDO</strong><em>JONES</em></div><div className="moment-cluster moment-cluster--right">{moments.slice(10).map((moment, index) => <AssetSlot key={moment} className={`moment moment-${index + 11} ${colorMoment === moment ? "is-color" : ""}`} label={`Momento ${moment}`} />)}</div></div><div className="moments-touch" onMouseOver={() => setColorMoment(1)} onFocus={() => setColorMoment(1)} tabIndex={0} aria-label="Mosaico de momentos. Os assets serão fornecidos posteriormente." /></section>;
+  return <section className="section moments-section page-width"><div className="section-rule"><span>COLETÂNIA DE MOMENTOS COMO</span></div><div className="moments-layout"><div className="moment-cluster moment-cluster--left">{moments.slice(0, 10).map((moment, index) => <AssetSlot key={moment} className={`moment moment-${index + 1} ${colorMoment === moment ? "is-color" : ""}`} label={`Momento ${moment}`} src={momentAssets[(moment - 1) % momentAssets.length]} />)}</div><div className="moments-wordmark"><strong>ORLANDO</strong><em>JONES</em></div><div className="moment-cluster moment-cluster--right">{moments.slice(10).map((moment, index) => <AssetSlot key={moment} className={`moment moment-${index + 11} ${colorMoment === moment ? "is-color" : ""}`} label={`Momento ${moment}`} src={momentAssets[(moment - 1) % momentAssets.length]} />)}</div></div><div className="moments-touch" onMouseOver={() => setColorMoment(1)} onFocus={() => setColorMoment(1)} tabIndex={0} aria-label="Mosaico de momentos. Os assets serão fornecidos posteriormente." /></section>;
 }
 
 function Footer() {
-  return <footer id="contact" className="site-footer"><div className="footer-grid page-width"><div className="footer-monogram" aria-hidden="true">OJ</div><Wordmark large inverted /><div className="footer-lower"><div><a className="footer-brand" href="#top"><Mark inverted /><Wordmark inverted /></a><p>Transformando problemas complexos em produtos digitais claros, úteis e escaláveis.</p><small>© 2026 Orlando Jones. Todos os direitos reservados.</small></div><div className="footer-links"><div><strong>NAVEGAÇÃO</strong><a href="#experience">Experiência</a><a href="#projects">Projetos</a><a href="#skills">Perícias</a><a href="#cv">Meu CV</a></div><div><strong>SOCIAL</strong><a href="#linkedin">LinkedIn</a><a href="#instagram">Instagram</a></div></div></div></div></footer>;
+  return <footer id="contact" className="site-footer"><div className="footer-grid page-width"><img className="footer-monogram" src="/I1-670;1623-3086.svg" alt="" aria-hidden="true" /><Wordmark large inverted /><div className="footer-lower"><div><a className="footer-brand" href="#top"><Mark inverted /><Wordmark inverted /></a><p>Transformando problemas complexos em produtos digitais claros, úteis e escaláveis.</p><small>© 2026 Orlando Jones. Todos os direitos reservados.</small></div><div className="footer-links"><div><strong>NAVEGAÇÃO</strong><a href="#experience">Experiência</a><a href="#projects">Projetos</a><a href="#skills">Perícias</a><a href="#cv">Meu CV</a></div><div><strong>SOCIAL</strong><a href="#linkedin">LinkedIn</a><a href="#instagram">Instagram</a></div></div></div></div></footer>;
 }
 
 export default function Home() {

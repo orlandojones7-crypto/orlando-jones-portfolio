@@ -58,3 +58,27 @@ a:focus-visible, [tabindex]:focus-visible { outline:2px solid #000; outline-offs
 /* Project route placeholder: same editorial grid and restrained type until real case-study assets arrive. */
 .project-detail-page{min-height:100vh;padding:110px 0;background:#fff;background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);background-size:calc((100vw - 32px)/7) 100%,100% 155px}.back-link{font-size:12px;text-decoration:underline}.eyebrow{margin-top:100px;font:500 10px 'Plus Jakarta Sans';letter-spacing:.1em}.project-detail-page h1{font:700 clamp(56px,10vw,140px)/.95 'Plus Jakarta Sans';letter-spacing:-.08em;margin:16px 0 60px}.detail-slot{min-height:280px;border:1px solid var(--border);display:grid;place-items:center;color:var(--muted);font-size:12px;background:rgba(250,250,248,.7)}
 @media(max-width:800px){.project-detail-page{padding-top:70px}.eyebrow{margin-top:85px}.detail-slot{min-height:220px;text-align:center;padding:30px}}
+
+/* Figma asset integration: use exported media as the source of truth, preserving the compositional slots. */
+.asset-slot--image{background:transparent}.asset-slot--image::after{background-image:none}.asset-slot--image>img{display:block;width:100%;height:100%;object-fit:cover}.hero-geometry{position:absolute;left:50%;top:64px;width:min(532px,42vw);height:767px;transform:translateX(-50%);z-index:0;opacity:.85}.hero-portrait{background:transparent;clip-path:none}.hero-portrait::before{content:"";position:absolute;z-index:2;inset:45% 0 0;background:linear-gradient(to bottom,rgba(250,250,248,0),var(--hero) 95%);pointer-events:none}.hero-portrait img{object-fit:contain;object-position:center bottom;position:relative;z-index:1}.project-preview .asset-slot--image{height:100%;background:#090909}.project-preview .asset-slot--image>img{object-fit:contain;object-position:center}.skill-portrait{background:#d6e2df}.skill-portrait img{object-fit:cover}.moment.asset-slot--image{background:#c7c7c7}.moment.asset-slot--image>img{filter:grayscale(1);object-fit:cover;transition:filter .35s,transform .2s var(--ease-out)}.moment.asset-slot--image:hover>img,.moment.asset-slot--image:focus>img,.moment.asset-slot--image.is-color>img{filter:grayscale(0)}.footer-monogram{position:absolute;left:-100px;top:-140px;width:720px;height:720px;object-fit:contain;z-index:0}
+@media(max-width:800px){.hero-geometry{top:34px;width:532px;max-width:135vw;height:767px}.hero-portrait{width:57%;height:500px}.footer-monogram{width:500px;height:500px;left:-105px;top:-30px}}
+
+/* Official Figma brand mark layers. */
+.brand-mark{position:relative;border:0;border-radius:0;width:20px;height:20px;display:inline-block;flex:none}.brand-mark>img{position:absolute;display:block;object-fit:contain}.brand-mark>img:nth-child(1){inset:0;width:20px;height:20px}.brand-mark>img:nth-child(2){left:5.74px;top:4.45px;width:8.55px;height:9.81px}.brand-mark>img:nth-child(3){left:11.09px;top:.07px;width:3.19px;height:4.66px}.brand-mark--inverted img{filter:invert(1)}
+
+/* Desktop fidelity pass: normalize the original 1920px Figma offsets to the active viewport. */
+@media (min-width:801px){
+  .site-header{height:70px}
+  .hero-layer{inset:70px 0 auto;height:clamp(600px,46.93vw,901px)}
+  .hero-spacer{height:clamp(600px,46.93vw,901px)}
+  .hero-title{position:absolute;left:16.46%;top:clamp(130px,10.57vw,203px);margin:0;align-self:auto}
+  .hero-portrait{position:absolute;left:32.4%;top:0;width:35.26%;height:clamp(600px,44.17vw,848px);max-width:none;margin:0}
+  .hero-copy{position:absolute;left:58.96%;top:clamp(250px,20.63vw,396px);width:min(31.5%,472px);margin:0}
+  .hero-copy p{font-size:clamp(10px,.833vw,16px);padding:16px 32px 7px}
+  .text-link{font-size:clamp(10px,.833vw,16px);padding:2px 32px 16px}
+  .button--dark{min-width:250px;height:56px}
+}
+
+@media (min-width:801px){.hero-copy{grid-column:auto}}
+
+@media (min-width:801px){.hero-portrait::before{inset:58% 0 0;background:linear-gradient(to bottom,rgba(250,250,248,0),var(--hero) 100%)}}
